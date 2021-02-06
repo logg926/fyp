@@ -33,7 +33,7 @@ export const DropzoneAreaVideo = observer(() => {
 
 export const DropzoneAreaPhoto = observer(() => {
   const state = useUserContext();
-  function handleChange(files: any) {
+  function handleChange(files: File[]) {
     console.log("files", files);
     state.photoFile = files[0] ? files[0] : null;
   }
