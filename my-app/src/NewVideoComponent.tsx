@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Box, Button, Card } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useUserContext } from "./userContext";
@@ -65,27 +65,32 @@ export const NewVideoComponent = observer(() => {
   // schedule the first one.
   return (
     <>
+      <Card raised>
+        {cv && (
+          <>
+            <Button
+              onClick={() => {
+                start();
+              }}
+            >
+              click me
+            </Button>
+            <Button
+              onClick={() => {
+                state.streaming = false;
+              }}
+            >
+              stop
+            </Button>
+          </>
+        )}
+      </Card>
       {/* <OpenCvProvider onLoad={onLoaded}> */}
-      <video id="videoInput" width="320" height="240"></video>
-      <canvas id="canvasOutput" width="320" height="240"></canvas>
-      {cv && (
-        <>
-          <Button
-            onClick={() => {
-              start();
-            }}
-          >
-            click me
-          </Button>
-          <Button
-            onClick={() => {
-              state.streaming = false;
-            }}
-          >
-            stop
-          </Button>
-        </>
-      )}
+      <Box>
+        <video id="videoInput" width="320" height="240"></video>
+        <canvas id="canvasOutput" width="320" height="240"></canvas>
+      </Box>
+
       {/* </OpenCvProvider> */}
     </>
   );
