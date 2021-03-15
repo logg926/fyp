@@ -7,7 +7,7 @@ export const Detection = observer(() => {
   useEffect(() => {
       const {detectimg} = dummyimg
     console.log(detectimg);
-    console.log(nj.fft(detectimg))
+    // console.log(nj.fft(detectimg))
   }, []);
   return <></>;
 });
