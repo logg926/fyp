@@ -90,7 +90,6 @@ export const NewVideoComponent = observer(() => {
         <video id="videoInput" width="320" height="240"></video>
         <canvas id="canvasOutput" width="320" height="240"></canvas>
       </Box>
-
       {/* </OpenCvProvider> */}
     </>
   );
