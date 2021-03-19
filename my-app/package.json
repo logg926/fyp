@@ -19,6 +19,7 @@
     "electron-is-dev": "^1.2.0",
     "fontsource-roboto": "^4.0.0",
     "image-to-rgba-matrix": "git+https://github.com/logg926/image-to-rgba-matrix.git",
+    "kissfft-js": "^0.1.8",
     "material-ui-dropzone": "^3.5.0",
     "mobx": "^6.1.5",
     "mobx-react-lite": "^3.2.0",
