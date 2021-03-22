@@ -23,7 +23,6 @@
     "material-ui-dropzone": "^3.5.0",
     "mobx": "^6.1.5",
     "mobx-react-lite": "^3.2.0",
-    "numjs": "^0.16.0",
     "opencv-react": "0.0.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { dummyimg } from "./dummyimg";
 
-const nj = require("numjs");
+// const nj = require("numjs");
 
 declare let cv: any;
 export const Detection = observer(() => {
