@@ -17,24 +17,26 @@ const App = observer(() => {
     <Router>
       <AppBar position="static">
         <Toolbar>
-          Deepfake Generation
-          <Link to="/generation">
-            <Button variant="contained">Generation</Button>
-          </Link>
-          <Link to="/detection">
-            <Button variant="contained">Detection</Button>
-          </Link>
+          <span>
+            <h1>Deepfake Portal</h1> 
+            {/* <span className="divider">|</span> */}
+          </span>
+          <Button component={Link} to="/" variant="contained">Info</Button>
+          <Button component={Link} to="/generation" variant="contained">Generation</Button>
+          <Button component={Link} to="/detection" variant="contained">Detection</Button>
+          <Button component={Link} to="/resources" variant="contained">Resources</Button>
         </Toolbar>
       </AppBar>
 
       <Switch>
         <Route path="/generation">
+          Record your video:
           <Box alignContent="center">
             <NewVideoComponent />
           </Box>
           {/* Put your Video here
 
-      <DropzoneAreaVideo /> */}
+          <DropzoneAreaVideo /> */}
           <Card raised>
             Put your Photo here:
             <Box>
@@ -42,7 +44,7 @@ const App = observer(() => {
             </Box>
           </Card>
           <Box>
-            {state.photoFile && state.videoArray.length > 0 && (
+            {state.photoFile && (
               <Button
                 variant="contained"
                 color="primary"
@@ -77,7 +79,7 @@ const App = observer(() => {
 
         <Route path="/detection">
           <Box alignContent="center">
-            <Detection/>
+            <Detection />
           </Box>
         </Route>
       </Switch>

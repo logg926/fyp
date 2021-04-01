@@ -73,14 +73,14 @@ export const NewVideoComponent = observer(() => {
                 start();
               }}
             >
-              click me
+              Start
             </Button>
             <Button
               onClick={() => {
                 state.streaming = false;
               }}
             >
-              stop
+              Stop
             </Button>
           </>
         )}
