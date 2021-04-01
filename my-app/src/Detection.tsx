@@ -33,8 +33,10 @@ export const Detection = observer(() => {
   const img = {
     detectimg: [],
   };
+  console.log(stateD.photoFile)
 
   imgElement && (imgElement.onload = function () {
+    console.log("image loaded!")
     let mat = cv.imread(imgElement);
     // cv.imshow('canvasOutput', mat);
     console.log(mat);
