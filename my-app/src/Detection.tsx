@@ -8,13 +8,13 @@ import { useUserContext } from "./userContext";
 
 declare let cv: any;
 export const Detection = observer(() => {
-  const stateD = useUserContext();
+  const state = useUserContext();
   const [dresult, setDresult] = React.useState(0);
   
 
 
   // const readImage = () => {
-  // let aa = cv.imread(stateD.photoFile, 0);
+  // let aa = cv.imread(state.photoFile, 0);
   // console.log("aa:");
   // let canvas = document.getElementById("canvasOutput");
   // let ctx = canvas.getContext('2d');
@@ -25,28 +25,32 @@ export const Detection = observer(() => {
   // cv.imshow('canvasOutput', dst);
   // }
 
-  let imgElement = document.getElementById("imageSrc") as HTMLImageElement
-  imgElement && (imgElement.src = stateD.photoFile);
+  let imgElement = document.getElementById("imageSrc") as HTMLVideoElement
+  imgElement && (imgElement.src = state.photoFile);
   // const { detectimg } = dummyimg;
   // console.log(detectimg);
-  let arr: any = [];
   const img = {
     detectimg: [],
   };
-  console.log(stateD.photoFile)
+  console.log(state.photoFile)
 
-  imgElement && (imgElement.onload = function () {
-    console.log("image loaded!")
-    let mat = cv.imread(imgElement);
+  const processVideo = (() => {
+    let FPS = 30;
+    let begin = Date.now();
+    let cap = new cv.VideoCapture(imgElement);
+    let mat = new cv.Mat(400, 400, cv.CV_8UC4);
+    let src = new cv.Mat(400, 400, cv.CV_8UC1);
+    cap.read(mat);
+    cv.cvtColor(mat, src, cv.COLOR_RGBA2RGB);
+    cv.imshow("canvasOutput", src);
+    // schedule next one.
+    // let delay = 1000/FPS - (Date.now() - begin);
+    // setTimeout(processVideo, 3000);
     // cv.imshow('canvasOutput', mat);
-    console.log(mat);
-    // let dst = new cv.Mat();
-    // let rect = new cv.Rect(100, 100, 200, 200);
-    // console.log(rect)
-    // let img = cv.matFromImageData(mat);
-    // console.log(img);
+    // console.log(mat);
     let dst = new cv.Mat();
-    mat.convertTo(dst, cv.CV_8U);
+    src.convertTo(dst, cv.CV_8U);
+    console.log(dst);
     let arrOut: any = [];
     for (let i = 0; i < dst.rows; ++i) {
       arrOut[i] = []
@@ -54,23 +58,28 @@ export const Detection = observer(() => {
         arrOut[i][j] = dst.ucharAt(i, j);
       }
     };
-    arr = arrOut;
-    img.detectimg = arr;
+    console.log(arrOut);
+    img.detectimg = arrOut;
     console.log(img)
     // console.log(detectimg)
     // console.log(arrOut);
-    // cv.imshow("canvasOutput", dst)
+    // cv.imshow("canvasOutput", mat)
     // console.log(arrOut[0])
     // console.log(detectimg)
     // console.log(dst.data)
     mat.delete();
-    dst.delete();
+    src.delete();
   })
 
+  imgElement && (imgElement.onloadstart = function () {
+    console.log("image loaded!")
+    setTimeout(processVideo,200);
+  });
 
 
 
-  useEffect(() => {
+
+  // useEffect(() => {
 
     // cv["onRuntimeInitialized"] = () => {
     // do all your work here
@@ -189,7 +198,7 @@ export const Detection = observer(() => {
     // console.log(nj.fft(detectimg))
     // let b = imread()
     // console.log()
-  }, []);
+  // }, []);
   return <>
     <Card raised>
       Put your Video here:
@@ -197,7 +206,7 @@ export const Detection = observer(() => {
         <DropzoneAreaPhoto />
       </Box>
       <h2>Preview:</h2>
-      <img id="imageSrc" alt="No Image" width="400" />
+      <video id="imageSrc"  width="400" height="400" autoPlay/>
     </Card>
     <Box>
         <Button
@@ -209,6 +218,7 @@ export const Detection = observer(() => {
                 setDresult(parseInt(data[1]));
                 console.log(data[1]) // JSON data parsed by `data.json()` call
               })
+            console.log("detection made")
           }}
         >
           Detect
@@ -216,6 +226,6 @@ export const Detection = observer(() => {
     </Box>
     <h1 id = "result">{dresult ? "It is a deepfake" : "It is not a deepfake"}</h1>
     
-    {/* <canvas id="canvasOutput" width="300" height="300"></canvas> */}
+    <canvas id="canvasOutput" width="300" height="300"></canvas>
   </>;
 });

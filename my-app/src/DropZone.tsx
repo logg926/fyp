@@ -5,11 +5,11 @@ import { useUserContext } from "./userContext";
 
 export const DropzoneAreaVideo = observer(() => {
   const state = useUserContext();
-  function handleChange(files: any) {
+  function handleChange(files: File[]) {
     console.log("video", files);
-    state.videoFile = files[0] ? files[0] : null;
+    state.videoFile = files[0] ? URL.createObjectURL(files[0]) : null;
   }
-  return <DropzoneArea filesLimit={1} onChange={handleChange} />;
+  return <DropzoneArea showFileNames dropzoneText={"Drag and drop an image here or click"} filesLimit={1} onChange={handleChange} />;
 });
 
 // export class DropzoneAreaPhoto extends Component {
@@ -34,8 +34,9 @@ export const DropzoneAreaVideo = observer(() => {
 export const DropzoneAreaPhoto = observer(() => {
   const state = useUserContext();
   function handleChange(files: File[]) {
-    console.log("files", files);
+    console.log("image", files);
     state.photoFile = files[0] ? URL.createObjectURL(files[0]) : null;
   }
-  return <DropzoneArea acceptedFiles={['image/*']} showFileNames dropzoneText={"Drag and drop an image here or click"} filesLimit={1} onChange={handleChange} />;
+  return <DropzoneArea  showFileNames dropzoneText={"Drag and drop an image here or click"} filesLimit={1} onChange={handleChange} />;
+  // acceptedFiles={['image/*']}
 });
