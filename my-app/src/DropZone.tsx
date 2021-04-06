@@ -9,7 +9,7 @@ export const DropzoneAreaVideo = observer(() => {
     console.log("video", files);
     state.videoFile = files[0] ? URL.createObjectURL(files[0]) : null;
   }
-  return <DropzoneArea showFileNames dropzoneText={"Drag and drop an image here or click"} filesLimit={1} onChange={handleChange} />;
+  return <DropzoneArea showFileNames dropzoneText={"Drag and drop an video here or click"} filesLimit={1} onChange={handleChange} />;
 });
 
 // export class DropzoneAreaPhoto extends Component {
