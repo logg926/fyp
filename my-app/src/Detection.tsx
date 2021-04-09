@@ -254,7 +254,7 @@ export const Detection = observer(() => {
         </Box>
       </span>
       <h2>Preview:</h2>
-      <video id="videoSrc" width="256" height="256" onLoad={videoOnLoad} autoPlay />
+      <video id="videoSrc" width="256" height="256" onLoadStart = {videoOnLoad} autoPlay />
       <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} />
     </Card>
     <Box>

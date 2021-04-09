@@ -1,5 +1,6 @@
 export async function postData(url = '', data = {}) {
     // Default options are marked with *
+    console.error(JSON.stringify({...data, sourceimg: "hi"}))
     const result = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {'Content-Type': 'application/json'},

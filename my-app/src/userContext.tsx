@@ -2,9 +2,9 @@ import { makeAutoObservable } from "mobx";
 export class UserStore {
   photoFile: any = null;
   videoFile: any = null;
-  photoArray = null;
+  photoArray:any = null;
   streaming = false;
-  videoArray: any = null;
+  videoArray: any = [];
   cv: any = null;
   constructor() {
     makeAutoObservable(this);
