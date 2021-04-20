@@ -97,7 +97,7 @@ export const Generation = observer(() => {
         //     }
         // }
         gen.drivevid = JSON.parse(JSON.stringify(state.videoArray));
-        console.log(gen.drivevid)
+        // console.log (gen.drivevid)
         // state.videoArray[0]
         // img.driving_vid = state.videoArray;
         // console.log(img.driving_vid)
