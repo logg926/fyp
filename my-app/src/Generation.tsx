@@ -5,7 +5,7 @@ import { Box, Card, Button } from "@material-ui/core";
 import { useUserContext } from "./userContext";
 import { observer } from "mobx-react-lite";
 import { postData } from "./dataservice";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 declare let cv: any;
 let result = [];
 export const Generation = observer(() => {
@@ -124,7 +124,8 @@ export const Generation = observer(() => {
             <canvas id="canvasOutput" width="320" height="240"></canvas>
         </Card>
         <Box>
-            {state.photoFile && (
+{state.genloading && <CircularProgress />}
+            {state.photoFile && !state.genloading && (
                 <Button
                     variant="contained"
                     color="primary"
@@ -149,16 +150,25 @@ export const Generation = observer(() => {
                     // }}
                     onClick={() => {
                         console.log(gen)
+                        // set loading
+                        state.genloading = true
                         postData('http://localhost:8000/gen', gen)
                             .then(data => {
                                 // setSvmresult(parseInt(data[1]));
-                                console.log(data[1]) // JSON data parsed by `data.json()` call
+                                console.log(data)
+                                state.generationlink = data
+                                state.genloading = false
                             })
                     }}
                 >
                     Deepfake this video and Photo
                 </Button>
             )}
+            {state.generationlink &&<a href={"http://localhost:8000/"+state.generationlink}>
+
+            Click me to download 
+            </a>
+            }
         </Box>
         <Box>
             <canvas id="canvas"></canvas>

@@ -6,6 +6,8 @@ export class UserStore {
   streaming = false;
   videoArray: any = [];
   cv: any = null;
+  generationlink: string |null = null
+  genloading = false;
   constructor() {
     makeAutoObservable(this);
   }
