@@ -21,16 +21,16 @@ const App = observer(() => {
   return (
     <Router>
       <AppBar position="static">
-        <Toolbar>
-          <span>
+        <Toolbar variant="dense">
+          {/* <span> */}
             <h1>Deepfake Portal</h1>
-          </span>
-          <span>
+          {/* </span> */}
+          {/* <span> */}
             <Button component={Link} to={items[0].route} variant="contained">{items[0].text}</Button>
             <Button component={Link} to={items[1].route} variant="contained">{items[1].text}</Button>
             <Button component={Link} to={items[2].route} variant="contained">{items[2].text}</Button>
             <Button component={Link} to={items[3].route} variant="contained">{items[3].text}</Button>
-          </span>
+          {/* </span> */}
         </Toolbar>
       </AppBar>
 
