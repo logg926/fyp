@@ -10,8 +10,8 @@ declare let cv: any;
 let result = [];
 export const Generation = observer(() => {
     const state = useUserContext();
-    const width = 320;
-    const height = 240;
+    const width = 256;
+    const height = 256;
     let imgElement = document.getElementById("imageSrc") as HTMLImageElement
     // let imgElement = document.getElementById("imageSrc") as HTMLImageElement
     // imgElement && (imgElement.src = state.photoFile);
@@ -25,9 +25,10 @@ export const Generation = observer(() => {
 
     imgElement && (imgElement.onload = function () {
         const canvas: any = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas && canvas.getContext("2d");
         ctx.drawImage(imgElement, 0, 0);
         const imgData = ctx.getImageData(0, 0, 256, 256).data;
+        console.log(imgData)
         let data_w= []
         const data = []
         let step = 0;
@@ -120,8 +121,8 @@ export const Generation = observer(() => {
                 <DropzoneAreaPhoto />
             </Box>
             Preview:
-            <img id="imageSrc" alt="No image" width="400" />
-            <canvas id="canvasOutput" width="320" height="240"></canvas>
+            <img id="imageSrc" alt="No image" width="256" />
+            {/* <canvas id="canvasOutput" ></canvas> */}
         </Card>
         <Box>
             {state.photoFile && (
@@ -161,7 +162,7 @@ export const Generation = observer(() => {
             )}
         </Box>
         <Box>
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" width="256" height="256"></canvas>
         </Box>
     </>
 });

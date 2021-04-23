@@ -7,6 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Detection } from "./Detection";
 import { Generation } from "./Generation";
+import { Resources } from "./Resources";
 import { useHistory } from "react-router-dom";
 const imageToRgbaMatrix = require("image-to-rgba-matrix");
 
@@ -42,6 +43,11 @@ const App = observer(() => {
         <Route path="/detection">
           <Box alignContent="center">
             <Detection />
+          </Box>
+        </Route>
+        <Route path="/resources">
+          <Box alignContent="center">
+            <Resources />
           </Box>
         </Route>
       </Switch>
