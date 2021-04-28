@@ -176,7 +176,7 @@ export const X2face = observer(() => {
               console.log(gen);
               // set loading
               state.genloading = true;
-              postData("http://localhost:8000/gen", gen).then((data) => {
+              postData("http://localhost:8000/x2gen", gen).then((data) => {
                 // setSvmresult(parseInt(data[1]));
                 console.log(data);
                 state.generationlink = data;
