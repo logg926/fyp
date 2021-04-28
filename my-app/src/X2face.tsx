@@ -8,7 +8,7 @@ import { postData } from "./dataservice";
 import CircularProgress from "@material-ui/core/CircularProgress";
 declare let cv: any;
 let result = [];
-export const Generation = observer(() => {
+export const X2face = observer(() => {
   const state = useUserContext();
   const width = 1000;
   const height = 1000;
@@ -127,8 +127,7 @@ export const Generation = observer(() => {
   return (
     <>
     <Box p={2} alignContent="center">
-
-    <b>Generation with First Order Motion Model </b><br></br>
+    <b>Generation with X2face </b><br></br>
       Record your video:
       <Box p={2} alignContent="center">
         <NewVideoComponent />
@@ -178,7 +177,7 @@ export const Generation = observer(() => {
               console.log(gen);
               // set loading
               state.genloading = true;
-              postData("http://localhost:8000/gen", gen).then((data) => {
+              postData("http://localhost:8000/x2gen", gen).then((data) => {
                 // setSvmresult(parseInt(data[1]));
                 console.log(data);
                 state.generationlink = data;
@@ -189,11 +188,14 @@ export const Generation = observer(() => {
             Deepfake this video and Photo
           </Button>
         )}
+        <Box p={1}>
+          
         {state.generationlink && (
           <a href={"http://localhost:8000/" + state.generationlink}>
             Click me to download
           </a>
         )}
+        </Box>
       </Box>
         <canvas id="canvas" 
         width="256" height="256"

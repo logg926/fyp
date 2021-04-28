@@ -13,27 +13,29 @@ export const NewVideoComponent = observer(() => {
   // const onLoaded = (cv: any) => {
   //   state.cv = cv;
   // };
-
-
+  useEffect(()=>{
+    let video: any = document.getElementById("videoInput");
+    navigator.mediaDevices
+    .getUserMedia({ video: true, audio: false })
+    .then(function (stream) {
+      video.srcObject = stream;
+      video.play();
+    })
+    .catch(function (err) {
+      console.log("An error occurred! " + err);
+    });
+  })
   const start = () => {
     state.videoArray = [];
     state.streaming = true;
-    let video: any = document.getElementById("videoInput");
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then(function (stream) {
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(function (err) {
-        console.log("An error occurred! " + err);
-      });
+    
+  let video: any = document.getElementById("videoInput");
     console.log("opencv loaded, cv");
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
     let cap = new cv.VideoCapture(video);
     console.log(cap);
-    const FPS = 30;
+    const FPS = 15;
     const width = 320;
     const height = 240;
     function processVideo() {
