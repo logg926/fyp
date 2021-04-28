@@ -15,10 +15,11 @@ const imageToRgbaMatrix = require("image-to-rgba-matrix");
 const App = observer(() => {
   const items = [
     { text: "Info", route: "/" },
-    { text: "Generation with First Order Motion Model", route: "/Generation" },
+    { text: "Generation", route: "/Generation" },
     { text: "Detection", route: "/Detection" },
     { text: "Resources", route: "/Resources" },
     { text: "Generation with X2face", route: "/x2face" },
+    { text: "Generation with First Order Motion Model", route: "/Generation" },
   ];
   return (
     <Router>
@@ -40,12 +41,12 @@ const App = observer(() => {
             </Button>
           </Box>
 
-          <Box p={1}>
+          {/* <Box p={1}>
             {" "}
             <Button component={Link} to={items[4].route} variant="contained">
               {items[4].text}
             </Button>
-          </Box>
+          </Box> */}
           <Box p={1}>
             {" "}
             <Button component={Link} to={items[2].route} variant="contained">
@@ -60,6 +61,29 @@ const App = observer(() => {
           </Box>
           {/* </span> */}
         </Toolbar>
+
+      <Switch>
+        <Route path="/generation">
+
+        <Button component={Link} to={items[4].route} variant="contained">
+              {items[4].text}
+            </Button>
+
+            <Button component={Link} to={items[5].route} variant="contained">
+              {items[5].text}
+            </Button>
+        </Route>
+
+        <Route path="/x2face">
+        <Button component={Link} to={items[4].route} variant="contained">
+              {items[4].text}
+            </Button>
+
+            <Button component={Link} to={items[5].route} variant="contained">
+              {items[5].text}
+            </Button>
+        </Route>
+      </Switch>
       </AppBar>
 
       <Switch>
