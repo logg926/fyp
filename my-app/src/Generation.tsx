@@ -127,6 +127,8 @@ export const Generation = observer(() => {
   return (
     <>
     <Box p={2} alignContent="center">
+
+    <b>Generation with First Order Motion Model </b><br></br>
       Record your video:
       <Box p={2} alignContent="center">
         <NewVideoComponent />
