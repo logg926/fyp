@@ -26,6 +26,10 @@ describe('Testing for generation', () => {
     cy.contains('Generation').click()
     cy.url().should('include', '/Generation')
 
+
+    cy.contains('Generation with X2face').click()
+    cy.url().should('include', '/x2face')
+
     cy.contains('Start').click()
     cy.wait(1000)
     cy.contains('Stop').click()
@@ -50,7 +54,7 @@ describe('Testing for generation', () => {
   })
   it('Deepfake Generation', function () {
 
-    cy.intercept('http://localhost:8000/gen').as('apiCheck')
+    cy.intercept('http://localhost:8000/x2gen').as('apiCheck')
     cy.contains('Deepfake this video and Photo').click()
     cy.wait('@apiCheck', { requestTimeout: 50000 })
 
