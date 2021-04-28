@@ -8,7 +8,7 @@ import { postData } from "./dataservice";
 import CircularProgress from "@material-ui/core/CircularProgress";
 declare let cv: any;
 let result = [];
-export const Generation = observer(() => {
+export const X2face = observer(() => {
   const state = useUserContext();
   const width = 1000;
   const height = 1000;

@@ -9,27 +9,55 @@ import { Detection } from "./Detection";
 import { Generation } from "./Generation";
 import { Resources } from "./Resources";
 import { useHistory } from "react-router-dom";
+import { X2face } from "./X2face";
 const imageToRgbaMatrix = require("image-to-rgba-matrix");
 
 const App = observer(() => {
   const items = [
-    { text: "Info", route: '/' },
-    { text: "Generation", route: '/Generation' },
-    { text: "Detection", route: '/Detection' },
-    { text: "Resources", route: '/Resources' },
+    { text: "Info", route: "/" },
+    { text: "Generation with First Order Motion Model", route: "/Generation" },
+    { text: "Detection", route: "/Detection" },
+    { text: "Resources", route: "/Resources" },
+    { text: "Generation with X2face", route: "/x2face" },
   ];
   return (
     <Router>
       <AppBar position="static">
         <Toolbar variant="dense">
           {/* <span> */}
-            <h1>Deepfake Portal</h1>
+          <h1>Deepfake Portal</h1>
           {/* </span> */}
           {/* <span> */}
-            <Button component={Link} to={items[0].route} variant="contained">{items[0].text}</Button>
-            <Button component={Link} to={items[1].route} variant="contained">{items[1].text}</Button>
-            <Button component={Link} to={items[2].route} variant="contained">{items[2].text}</Button>
-            <Button component={Link} to={items[3].route} variant="contained">{items[3].text}</Button>
+          <Box p={1}>
+            <Button component={Link} to={items[0].route} variant="contained">
+              {items[0].text}
+            </Button>
+          </Box>
+
+          <Box p={1}>
+            <Button component={Link} to={items[1].route} variant="contained">
+              {items[1].text}
+            </Button>
+          </Box>
+
+          <Box p={1}>
+            {" "}
+            <Button component={Link} to={items[4].route} variant="contained">
+              {items[4].text}
+            </Button>
+          </Box>
+          <Box p={1}>
+            {" "}
+            <Button component={Link} to={items[2].route} variant="contained">
+              {items[2].text}
+            </Button>
+          </Box>
+          <Box p={1}>
+            {" "}
+            <Button component={Link} to={items[3].route} variant="contained">
+              {items[3].text}
+            </Button>
+          </Box>
           {/* </span> */}
         </Toolbar>
       </AppBar>
@@ -39,7 +67,7 @@ const App = observer(() => {
           <Box alignContent="center">
             <Generation />
           </Box>
-        </Route >
+        </Route>
         <Route path="/detection">
           <Box alignContent="center">
             <Detection />
@@ -50,11 +78,14 @@ const App = observer(() => {
             <Resources />
           </Box>
         </Route>
+        <Route path="/x2face">
+          <Box alignContent="center">
+            <X2face />
+          </Box>
+        </Route>
       </Switch>
     </Router>
   );
 });
 
-
 export default App;
-
