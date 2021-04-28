@@ -188,14 +188,15 @@ export const X2face = observer(() => {
             Deepfake this video and Photo
           </Button>
         )}
-        <Box p={1}>
           
         {state.generationlink && (
+          
+        <Box p={1}>
           <a href={"http://localhost:8000/" + state.generationlink}>
             Click me to download
           </a>
-        )}
         </Box>
+        )}
       </Box>
         <canvas id="canvas" 
         width="256" height="256"
