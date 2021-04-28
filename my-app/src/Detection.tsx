@@ -40,7 +40,7 @@ export const Detection = observer(() => {
 
   imgElement && (imgElement.src = state.photoFile);
   const img = {
-    detectimg: [] as any,
+    detectvid: [] as any,
   };
   const svmimg = {
     detectimg: [] as any,
@@ -95,7 +95,7 @@ export const Detection = observer(() => {
     // console.log(data)
 
 
-    img.detectimg.push(data)
+    img.detectvid.push(data)
     // console.log(svmimg.detectimg)
 
     // console.log(data)
@@ -126,7 +126,7 @@ export const Detection = observer(() => {
       let data_svm_w = []
       let data_svm = [];
       let step_svm = 0;
-      for (let i = 0; i <= src.data.length; i ++) {
+      for (let i = 0; i <= src.data.length; i++) {
         if (step_svm == width) {
           data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
           // data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
@@ -145,7 +145,8 @@ export const Detection = observer(() => {
       }
       // console.log(data)
       svmimg.detectimg = data_svm;
-      console.log(svmimg.detectimg)
+      console.log(svmimg)
+      console.error(img);
       src.delete();
 
 
@@ -250,9 +251,24 @@ export const Detection = observer(() => {
         variant="contained"
         color="primary"
         onClick={() => {
-          postData('http://localhost:8000/svm_test', img)
+          postData('http://localhost:8000/svm_test', svmimg)
             .then(data => {
               setSvmresult(parseInt(data[1]));
+              console.log(data[1]) // JSON data parsed by `data.json()` call
+            })
+          postData('http://localhost:8000/capsule_test', img)
+            .then(data => {
+              setCapresult(parseInt(data[1]));
+              console.log(data[1]) // JSON data parsed by `data.json()` call
+            })
+          postData('http://localhost:8000/cnn_test', img)
+            .then(data => {
+              setCnnresult(parseInt(data[1]));
+              console.log(data[1]) // JSON data parsed by `data.json()` call
+            })
+          postData('http://localhost:8000/ensemble_test', img)
+            .then(data => {
+              setEnsresult(parseInt(data[1]));
               console.log(data[1]) // JSON data parsed by `data.json()` call
             })
         }}
