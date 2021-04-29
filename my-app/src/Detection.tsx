@@ -9,10 +9,10 @@ import { useUserContext } from "./userContext";
 declare let cv: any;
 export const Detection = observer(() => {
   const state = useUserContext();
-  const [svmresult, setSvmresult] = React.useState(0);
-  const [capresult, setCapresult] = React.useState(0);
-  const [cnnresult, setCnnresult] = React.useState(0);
-  const [ensresult, setEnsresult] = React.useState(0);
+  const [svmresult, setSvmresult] = React.useState(-1);
+  const [capresult, setCapresult] = React.useState(-1);
+  const [cnnresult, setCnnresult] = React.useState(-1);
+  const [ensresult, setEnsresult] = React.useState(-1);
 
 
 
@@ -28,8 +28,15 @@ export const Detection = observer(() => {
   // cv.imshow('canvasOutput', dst);
   // }
 
+  // if(!state.videoFile){
+  //   setSvmresult(-1);
+  //   setCapresult(-1);
+  //   setCnnresult(-1);
+  //   setEnsresult(-1);
+  // }
+
   let vidElement = document.getElementById("videoSrc") as HTMLVideoElement
-  let imgElement = document.getElementById("imageSrc") as HTMLImageElement
+  // let imgElement = document.getElementById("imageSrc") as HTMLImageElement
   vidElement && (vidElement.src = state.videoFile);
   let duration: number;
   vidElement && (vidElement.onloadedmetadata = function () {
@@ -38,7 +45,7 @@ export const Detection = observer(() => {
     videoOnLoad();
   });
 
-  imgElement && (imgElement.src = state.photoFile);
+  // imgElement && (imgElement.src = state.photoFile);
   const img = {
     detectvid: [] as any,
   };
@@ -64,7 +71,7 @@ export const Detection = observer(() => {
     // schedule next one.
     // let delay = 1000/FPS - (Date.now() - begin);
     // setTimeout(processVideo, 3000);
-    cv.imshow('canvasOutput', mat);
+    // cv.imshow('canvasOutput', mat);
     // console.log(mat);
     // cv.imshow("canvasOutput", mat);
 
@@ -146,7 +153,7 @@ export const Detection = observer(() => {
       // console.log(data)
       svmimg.detectimg = data_svm;
       console.log(svmimg)
-      console.error(img);
+      console.log(img);
       src.delete();
 
 
@@ -212,55 +219,51 @@ export const Detection = observer(() => {
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
         <Card>
-          <Box height={500} m={1}>
+          <Box height={700} m={1}>
             <h3>Put your Video here:</h3>
             <span>
               {/* <Box>
           <DropzoneAreaPhoto />
         </Box> */}
-              <Box height={500}>
+              <Box>
                 <DropzoneAreaVideo />
               </Box>
             </span>
+
+            <h4>Preview:</h4>
+            <video id="videoSrc" width="256" height="256" autoPlay />
+            {/* <canvas id="canvasOutput" width="256" height="256"></canvas> */}
+            {/* <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} /> */}
           </Box>
-          {/* <h2>Preview:</h2> */}
-          <video id="videoSrc" width="256" height="256" autoPlay />
-          <canvas id="canvasOutput" width="256" height="256"></canvas>
-          {/* <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} /> */}
         </Card>
       </Grid>
       <Grid item xs={12} sm={6}>
         <Card>
-          <Box height={500} m={1}>
+          <Box height={700} m={1}>
             {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
             <h1>Detection Report of Deepfakes:</h1>
             <h4>1.Capsule Network Test: </h4>
-            <h2>False</h2>
+            <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : '')}</h2>
             <h4>2.Xception Network Test:</h4>
-            <h2>False</h2>
+            <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : '')}</h2>
             <h4>3.Ensemble Network Test:</h4>
-            <h2>False</h2>
+            <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : '')}</h2>
             <h4>4.Frequency Domain Test:</h4>
-            <h2>False</h2>
+            <h2>{(svmresult == 1) ? 'True' : ((svmresult == 0) ? 'False' : '')}</h2>
           </Box>
         </Card>
       </Grid>
     </Grid>
     <Box>
-      <Button
+      {svmimg && <Button
         variant="contained"
         color="primary"
         onClick={() => {
-          postData('http://localhost:8000/svm_test', svmimg)
-            .then(data => {
-              setSvmresult(parseInt(data[1]));
-              console.log(data[1]) // JSON data parsed by `data.json()` call
-            })
-          postData('http://localhost:8000/capsule_test', img)
-            .then(data => {
-              setCapresult(parseInt(data[1]));
-              console.log(data[1]) // JSON data parsed by `data.json()` call
-            })
+          // postData('http://localhost:8000/capsule_test', img)
+          //   .then(data => {
+          //     setCapresult(parseInt(data[1]));
+          //     console.log(data[1]) // JSON data parsed by `data.json()` call
+          //   })
           postData('http://localhost:8000/cnn_test', img)
             .then(data => {
               setCnnresult(parseInt(data[1]));
@@ -271,10 +274,15 @@ export const Detection = observer(() => {
               setEnsresult(parseInt(data[1]));
               console.log(data[1]) // JSON data parsed by `data.json()` call
             })
+          postData('http://localhost:8000/svm_test', svmimg)
+            .then(data => {
+              setSvmresult(parseInt(data[1]));
+              console.log(data[1]) // JSON data parsed by `data.json()` call
+            })
         }}
       >
         Detect
-        </Button>
+        </Button>}
     </Box>
 
 
