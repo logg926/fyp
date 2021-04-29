@@ -15,7 +15,6 @@ export const Detection = observer(() => {
   const [ensresult, setEnsresult] = React.useState(-1);
 
 
-
   // const readImage = () => {
   // let aa = cv.imread(state.photoFile, 0);
   // console.log("aa:");
@@ -175,7 +174,7 @@ export const Detection = observer(() => {
     //   return
     // }
     console.log("video loaded!")
-    setTimeout(processVideo, 0);
+    setTimeout(processVideo, 20);
     // setTimeout(processVideo, 3000);
     // console.log(img.detectimg)
   });
@@ -238,20 +237,22 @@ export const Detection = observer(() => {
         </Card>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Card>
-          <Box height={700} m={1}>
-            {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
-            <h1>Detection Report of Deepfakes:</h1>
-            <h4>1.Capsule Network Test: </h4>
-            <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : '')}</h2>
-            <h4>2.Xception Network Test:</h4>
-            <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : '')}</h2>
-            <h4>3.Ensemble Network Test:</h4>
-            <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : '')}</h2>
-            <h4>4.Frequency Domain Test:</h4>
-            <h2>{(svmresult == 1) ? 'True' : ((svmresult == 0) ? 'False' : '')}</h2>
-          </Box>
-        </Card>
+        {state.videoFile &&
+          <Card>
+            <Box height={700} m={1}>
+              {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
+              <h1>Detection Report of Deepfakes:</h1>
+              <h4>1.Capsule Network Test: </h4>
+              <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : '')}</h2>
+              <h4>2.Xception Network Test:</h4>
+              <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : '')}</h2>
+              <h4>3.Ensemble Network Test:</h4>
+              <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : '')}</h2>
+              <h4>4.Frequency Domain Test:</h4>
+              <h2>{(svmresult == 1) ? 'True' : ((svmresult == 0) ? 'False' : '')}</h2>
+            </Box>
+          </Card>
+        }
       </Grid>
     </Grid>
     <Box>
@@ -259,25 +260,25 @@ export const Detection = observer(() => {
         variant="contained"
         color="primary"
         onClick={() => {
-          // postData('http://localhost:8000/capsule_test', img)
-          //   .then(data => {
-          //     setCapresult(parseInt(data[1]));
-          //     console.log(data[1]) // JSON data parsed by `data.json()` call
-          //   })
+          postData('http://localhost:8000/capsule_test', img)
+            .then(data => {
+              setCapresult(parseFloat(data)>0.5?1:0);
+              // console.log(data) // JSON data parsed by `data.json()` call
+            })
           postData('http://localhost:8000/cnn_test', img)
             .then(data => {
               setCnnresult(parseInt(data[1]));
-              console.log(data[1]) // JSON data parsed by `data.json()` call
+              // console.log(data[1]) // JSON data parsed by `data.json()` call
             })
           postData('http://localhost:8000/ensemble_test', img)
             .then(data => {
               setEnsresult(parseInt(data[1]));
-              console.log(data[1]) // JSON data parsed by `data.json()` call
+              // console.log(data[1]) // JSON data parsed by `data.json()` call
             })
           postData('http://localhost:8000/svm_test', svmimg)
             .then(data => {
               setSvmresult(parseInt(data[1]));
-              console.log(data[1]) // JSON data parsed by `data.json()` call
+              // console.log(data[1]) // JSON data parsed by `data.json()` call
             })
         }}
       >
