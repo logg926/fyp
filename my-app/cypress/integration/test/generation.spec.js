@@ -19,7 +19,7 @@ function b64toBlob(b64Data, contentType = '', sliceSize = 512) {
   return blob
 }
 
-describe('Testing for generation', () => {
+describe('Testing for generation first order motion model', () => {
   it('Can open', () => {
     cy.visit('http://localhost:3000')
 
@@ -51,7 +51,54 @@ describe('Testing for generation', () => {
   it('Deepfake Generation', function () {
 
     cy.intercept('http://localhost:8000/gen').as('apiCheck')
-    cy.contains('Deepfake this video and Photo').click()
+    cy.contains('Deepfake this video and Photo with First Order Motion Model').click()
+    cy.wait('@apiCheck', { requestTimeout: 50000 })
+
+    cy.contains('Click me to download')
+      .invoke('attr', 'href')
+      .then(href => {
+        const uriRegEx = /http:\/\/localhost:8000\/static\//;
+        expect(href).match(uriRegEx);
+      });
+    // assert succesful upload and continue testing
+    // cy.downloadFile('https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg','mydownloads','example.jpg')
+  })
+})
+
+
+describe('Testing for generation X2face', () => {
+  it('Can open', () => {
+    cy.visit('http://localhost:3000')
+
+    cy.contains('Generation').click()
+    cy.url().should('include', '/Generation')
+
+    cy.contains('Start').click()
+    cy.wait(1000)
+    cy.contains('Stop').click()
+
+  })
+  it('Should be able upload', function () {
+    // upload file using drag and drop using a fixtue
+    // cy.fixture('files/lena_gray.jpg', 'base64').then(content => {
+    //     cy.get('input[type=file]').attachFile(content, 'lena_gray.jpg')
+    // })
+    const fileName = 'files/lena_gray.jpg'
+    cy.fixture(fileName)
+      .then(fileContent => {
+        cy.get('input[type="file"]').attachFile({
+          fileContent: b64toBlob(fileContent),
+          fileName,
+          mimeType: 'image/jpeg'
+        });
+      });
+
+    // assert succesful upload and continue testing
+  })
+  it('Deepfake Generation', function () {
+
+    cy.intercept('http://localhost:8000/x2gen').as('apiCheck')
+    cy.contains('Deepfake this video and Photo with X2Face').click()
     cy.wait('@apiCheck', { requestTimeout: 50000 })
 
     cy.contains('Click me to download')
