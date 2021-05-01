@@ -51,10 +51,10 @@ export const Generation = observer(() => {
   return (
     <>
       <Box p={2} alignContent="center">
-        <b>Generation with First Order Motion Model </b>
+        <b>Deepfakes Generation</b>
         <br></br>
-        Record your video:
         <Box p={2} alignContent="center">
+          Record your video:
           <NewVideoComponent />
         </Box>
         <Box p={2}>

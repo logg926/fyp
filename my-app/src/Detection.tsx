@@ -10,9 +10,13 @@ declare let cv: any;
 export const Detection = observer(() => {
   const state = useUserContext();
   const [svmresult, setSvmresult] = React.useState(-1);
+  const [svmerror, setSvmerror] = React.useState(0);
   const [capresult, setCapresult] = React.useState(-1);
+  const [caperror, setCaperror] = React.useState(0);
   const [cnnresult, setCnnresult] = React.useState(-1);
+  const [cnnerror, setCnnerror] = React.useState(0);
   const [ensresult, setEnsresult] = React.useState(-1);
+  const [enserror, setEnserror] = React.useState(0);
 
 
   // const readImage = () => {
@@ -51,8 +55,7 @@ export const Detection = observer(() => {
   const svmimg = {
     detectimg: [] as any,
   };
-  console.log(state.photoFile)
-  console.log(state.videoFile)
+  // console.log(state.videoFile)
 
   const FPS = 30;
   // const canvas: any = document.getElementById("canvasOutput");
@@ -215,78 +218,90 @@ export const Detection = observer(() => {
   // });
 
   return <>
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <Box height={700} m={1}>
-            <h3>Put your Video here:</h3>
-            <span>
-              {/* <Box>
-          <DropzoneAreaPhoto />
-        </Box> */}
-              <Box>
-                <DropzoneAreaVideo />
-              </Box>
-            </span>
-
-            <h4>Preview:</h4>
-            <video id="videoSrc" width="256" height="256" autoPlay />
-            {/* <canvas id="canvasOutput" width="256" height="256"></canvas> */}
-            {/* <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} /> */}
-          </Box>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        {state.videoFile &&
+    <Box p={2} alignContent="center">
+      <b>Deepfakes Detection</b>
+      <br></br>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
           <Card>
             <Box height={700} m={1}>
-              {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
-              <h1>Detection Report of Deepfakes:</h1>
-              <h4>1.Capsule Network Test: </h4>
-              <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : '')}</h2>
-              <h4>2.Xception Network Test:</h4>
-              <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : '')}</h2>
-              <h4>3.Ensemble Network Test:</h4>
-              <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : '')}</h2>
-              <h4>4.Frequency Domain Test:</h4>
-              <h2>{(svmresult == 1) ? 'True' : ((svmresult == 0) ? 'False' : '')}</h2>
+              Put your Video here:
+              <span>
+                {/* <Box>
+          <DropzoneAreaPhoto />
+        </Box> */}
+                <Box>
+                  <DropzoneAreaVideo />
+                </Box>
+              </span>
+
+              <h4>Preview:</h4>
+              <video id="videoSrc" width="256" height="256" autoPlay />
+              {/* <canvas id="canvasOutput" width="256" height="256"></canvas> */}
+              {/* <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} /> */}
             </Box>
           </Card>
-        }
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {state.videoFile &&
+            <Card>
+              <Box height={700} m={1}>
+                {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
+                <h1>Detection Report of Deepfakes:</h1>
+                <h4>1.Capsule Network Test: </h4>
+                <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : (caperror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h4>2.Xception Network Test:</h4>
+                <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : (cnnerror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h4>3.Ensemble Network Test:</h4>
+                <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : (enserror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h4>4.Frequency Domain Test:</h4>
+                <h2>{(svmresult == 0) ? 'True' : ((svmresult == 1) ? 'False' : (svmerror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+              </Box>
+            </Card>
+          }
+        </Grid>
       </Grid>
-    </Grid>
-    <Box>
-      {svmimg && <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          postData('http://localhost:8000/capsule_test', img)
-            .then(data => {
-              setCapresult(parseFloat(data)>0.5?1:0);
-              // console.log(data) // JSON data parsed by `data.json()` call
-            })
-          postData('http://localhost:8000/cnn_test', img)
-            .then(data => {
-              setCnnresult(parseInt(data[1]));
-              // console.log(data[1]) // JSON data parsed by `data.json()` call
-            })
-          postData('http://localhost:8000/ensemble_test', img)
-            .then(data => {
-              setEnsresult(parseInt(data[1]));
-              // console.log(data[1]) // JSON data parsed by `data.json()` call
-            })
-          postData('http://localhost:8000/svm_test', svmimg)
-            .then(data => {
-              setSvmresult(parseInt(data[1]));
-              // console.log(data[1]) // JSON data parsed by `data.json()` call
-            })
-        }}
-      >
-        Detect
+      <Box>
+        {svmimg && <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            postData('http://localhost:8000/capsule_test', img)
+              .then(data => {
+                setCapresult(parseFloat(data) > 0.5 ? 1 : 0);
+                // console.log(data) // JSON data parsed by `data.json()` call
+              }).catch(error => {
+                setCaperror(1)
+              });
+            postData('http://localhost:8000/cnn_test', img)
+              .then(data => {
+                setCnnresult(parseInt(data[1]));
+                // console.log(data[1]) // JSON data parsed by `data.json()` call
+              }).catch(error => {
+                setCnnerror(1)
+              });
+            postData('http://localhost:8000/ensemble_test', img)
+              .then(data => {
+                setEnsresult(parseInt(data[1]));
+                // console.log(data[1]) // JSON data parsed by `data.json()` call
+              }).catch(error => {
+                setEnserror(1)
+              });
+            postData('http://localhost:8000/svm_test', svmimg)
+              .then(data => {
+                setSvmresult(parseInt(data[1]));
+                // console.log(data[1]) // JSON data parsed by `data.json()` call
+              }).catch(error => {
+                setSvmerror(1)
+              });
+          }}
+        >
+          Detect
         </Button>}
+      </Box>
+
+
+      <canvas id="canvasOutput" width="256" height="256"></canvas>
     </Box>
-
-
-    <canvas id="canvasOutput" width="256" height="256"></canvas>
   </>;
 });
