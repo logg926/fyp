@@ -8,9 +8,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Detection } from "./Detection";
 import { Generation } from "./Generation";
 import { Resources } from "./Resources";
-import { useHistory } from "react-router-dom";
-import { X2face } from "./X2face";
-const imageToRgbaMatrix = require("image-to-rgba-matrix");
 
 const App = observer(() => {
   const items = [
@@ -25,10 +22,7 @@ const App = observer(() => {
     <Router>
       <AppBar position="static">
         <Toolbar variant="dense">
-          {/* <span> */}
           <h1>Deepfake Portal</h1>
-          {/* </span> */}
-          {/* <span> */}
           <Box p={1}>
             <Button component={Link} to={items[0].route} variant="contained">
               {items[0].text}
@@ -40,50 +34,18 @@ const App = observer(() => {
               {items[1].text}
             </Button>
           </Box>
-
-          {/* <Box p={1}>
-            {" "}
-            <Button component={Link} to={items[4].route} variant="contained">
-              {items[4].text}
-            </Button>
-          </Box> */}
           <Box p={1}>
-            {" "}
             <Button component={Link} to={items[2].route} variant="contained">
               {items[2].text}
             </Button>
           </Box>
           <Box p={1}>
-            {" "}
             <Button component={Link} to={items[3].route} variant="contained">
               {items[3].text}
             </Button>
           </Box>
-          {/* </span> */}
         </Toolbar>
 
-      <Switch>
-        <Route path="/generation">
-
-        <Button component={Link} to={items[4].route} variant="contained">
-              {items[4].text}
-            </Button>
-
-            <Button component={Link} to={items[5].route} variant="contained">
-              {items[5].text}
-            </Button>
-        </Route>
-
-        <Route path="/x2face">
-        <Button component={Link} to={items[4].route} variant="contained">
-              {items[4].text}
-            </Button>
-
-            <Button component={Link} to={items[5].route} variant="contained">
-              {items[5].text}
-            </Button>
-        </Route>
-      </Switch>
       </AppBar>
 
       <Switch>
@@ -100,11 +62,6 @@ const App = observer(() => {
         <Route path="/resources">
           <Box alignContent="center">
             <Resources />
-          </Box>
-        </Route>
-        <Route path="/x2face">
-          <Box alignContent="center">
-            <X2face />
           </Box>
         </Route>
       </Switch>
