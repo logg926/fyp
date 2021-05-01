@@ -27,10 +27,7 @@ export const Generation = observer(() => {
 
       const height = 256;
       const width = 256;
-      console.log("height", height);
-      console.log("width", width);
       const imgData = ctx.getImageData(0, 0, height, width).data;
-      console.log(imgData);
       let data_w = [];
       const data = [];
       let step = 0;

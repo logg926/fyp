@@ -4,15 +4,8 @@ import React, { useEffect } from "react";
 import { useUserContext } from "./userContext";
 
 declare let cv: any;
-const streaming = true;
 export const NewVideoComponent = observer(() => {
   const state = useUserContext();
-  // useEffect(() => {
-  //   state.cv = cv;
-  // }, []);
-  // const onLoaded = (cv: any) => {
-  //   state.cv = cv;
-  // };
   useEffect(()=>{
     let video: any = document.getElementById("videoInput");
     navigator.mediaDevices
@@ -53,7 +46,6 @@ export const NewVideoComponent = observer(() => {
 
         const canvas: any = document.getElementById("canvasOutput");
         const ctx = canvas.getContext("2d");
-        // console.log(ctx);
         let imgData = ctx.getImageData(0, 0, width, height).data;
         let data_w= []
         const data = []
@@ -62,21 +54,14 @@ export const NewVideoComponent = observer(() => {
         for (let i = 0; i <= imgData.length; i += 4) {
           if (step == width) {
             data.push(JSON.parse(JSON.stringify(data_w)))
-            // console.log(data_w)
             step = 0;
             data_w= []
           }
           data_w.push([imgData[i], imgData[i + 1], imgData[i + 2]]);
-          // console.log(data_w)
           ++step;
         }
-        // console.log(data)
-        // console.log(imgData)
-        // canvas to array then push at state.videoArray
-        // state.videoArray.push(imgData);
         state.videoArray.push(data);
         console.log(state.videoArray)
-
         // schedule the next one.
         let delay = 1000 / FPS - (Date.now() - begin);
         setTimeout(processVideo, delay);
@@ -85,8 +70,6 @@ export const NewVideoComponent = observer(() => {
       }
     }
     processVideo();
-    // console.log(typeof(state.videoArray))
-    // setTimeout(processVideo, 0);
   };
   // schedule the first one.
   return (
@@ -111,12 +94,10 @@ export const NewVideoComponent = observer(() => {
           </>
         )}
       </Card>
-      {/* <OpenCvProvider onLoad={onLoaded}> */}
       <Box>
         <video id="videoInput" width="320" height="240"></video>
         <canvas id="canvasOutput" width="320" height="240"></canvas>
       </Box>
-      {/* </OpenCvProvider> */}
     </>
   );
 });

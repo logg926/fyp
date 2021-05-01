@@ -16,6 +16,5 @@ export class UserStore {
 const myClientStore = new UserStore();
 
 export function useUserContext() {
-  // const myContext = useContext(ClientContext);
   return myClientStore;
 }
