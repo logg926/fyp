@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Detection } from "./Detection";
 import { Generation } from "./Generation";
 import { Resources } from "./Resources";
+import { Info } from "./Info";
 
 const App = observer(() => {
   const items = [
@@ -15,8 +16,6 @@ const App = observer(() => {
     { text: "Generation", route: "/Generation" },
     { text: "Detection", route: "/Detection" },
     { text: "Resources", route: "/Resources" },
-    { text: "Generation with X2face", route: "/x2face" },
-    { text: "Generation with First Order Motion Model", route: "/Generation" },
   ];
   return (
     <Router>
@@ -28,7 +27,6 @@ const App = observer(() => {
               {items[0].text}
             </Button>
           </Box>
-
           <Box p={1}>
             <Button component={Link} to={items[1].route} variant="contained">
               {items[1].text}
@@ -49,6 +47,11 @@ const App = observer(() => {
       </AppBar>
 
       <Switch>
+        <Route path="/" exact>
+          <Box alignContent="center">
+            <Info />
+          </Box>
+        </Route>
         <Route path="/generation">
           <Box alignContent="center">
             <Generation />

@@ -5,19 +5,11 @@ import { DropzoneAreaPhoto, DropzoneAreaVideo } from "./DropZone";
 import { postData } from "./dataservice";
 import { Card, Box, Button, Grid } from "@material-ui/core";
 import { useUserContext } from "./userContext";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 declare let cv: any;
 export const Detection = observer(() => {
   const state = useUserContext();
-  const [svmresult, setSvmresult] = React.useState(-1);
-  const [svmerror, setSvmerror] = React.useState(0);
-  const [capresult, setCapresult] = React.useState(-1);
-  const [caperror, setCaperror] = React.useState(0);
-  const [cnnresult, setCnnresult] = React.useState(-1);
-  const [cnnerror, setCnnerror] = React.useState(0);
-  const [ensresult, setEnsresult] = React.useState(-1);
-  const [enserror, setEnserror] = React.useState(0);
-
 
   // const readImage = () => {
   // let aa = cv.imread(state.photoFile, 0);
@@ -172,14 +164,8 @@ export const Detection = observer(() => {
   })
 
   const videoOnLoad = (() => {
-    // if (state.photoFile) {
-    //   console.log("remove image to display video");
-    //   return
-    // }
     console.log("video loaded!")
     setTimeout(processVideo, 20);
-    // setTimeout(processVideo, 3000);
-    // console.log(img.detectimg)
   });
 
   // const imgOnLoad = (() => {
@@ -249,13 +235,17 @@ export const Detection = observer(() => {
                 {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
                 <h1>Detection Report of Deepfakes:</h1>
                 <h4>1.Capsule Network Test: </h4>
-                <h2>{(capresult == 1) ? 'True' : ((capresult == 0) ? 'False' : (caperror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h2>{state.caperror == 1 ? 'Return error' : (state.capresult == 0 ? "It is not a deepfake" : (state.capresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                {state.caploading && <CircularProgress />}
                 <h4>2.Xception Network Test:</h4>
-                <h2>{(cnnresult == 1) ? 'True' : ((cnnresult == 0) ? 'False' : (cnnerror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h2>{state.cnnerror == 1 ? 'Return error' : (state.cnnresult == 0 ? "It is not a deepfake" : (state.cnnresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                {state.cnnloading && <CircularProgress />}
                 <h4>3.Ensemble Network Test:</h4>
-                <h2>{(ensresult == 1) ? 'True' : ((ensresult == 0) ? 'False' : (enserror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h2>{state.enserror == 1 ? 'Return error' : (state.ensresult == 0 ? "It is not a deepfake" : (state.ensresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                {state.ensloading && <CircularProgress />}
                 <h4>4.Frequency Domain Test:</h4>
-                <h2>{(svmresult == 0) ? 'True' : ((svmresult == 1) ? 'False' : (svmerror == 1 ? 'Return error' : 'Waiting for response...'))}</h2>
+                <h2>{state.svmerror == 1 ? 'Return error' : (state.svmresult == 0 ? "It is not a deepfake" : (state.svmresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                {state.svmloading && <CircularProgress />}
               </Box>
             </Card>
           }
@@ -266,33 +256,41 @@ export const Detection = observer(() => {
           variant="contained"
           color="primary"
           onClick={() => {
+            state.caploading = true;
+            state.cnnloading = true;
+            state.ensloading = true;
+            state.svmloading = true;
             postData('http://localhost:8000/capsule_test', img)
               .then(data => {
-                setCapresult(parseFloat(data) > 0.5 ? 1 : 0);
-                // console.log(data) // JSON data parsed by `data.json()` call
+                state.capresult = parseFloat(data) > 0.5 ? 1 : 0;
+                state.caploading = false;
               }).catch(error => {
-                setCaperror(1)
+                state.caperror = 1;
+                state.caploading = false;
               });
             postData('http://localhost:8000/cnn_test', img)
               .then(data => {
-                setCnnresult(parseInt(data[1]));
-                // console.log(data[1]) // JSON data parsed by `data.json()` call
+                state.cnnresult = parseInt(data[1]);
+                state.cnnloading = false;
               }).catch(error => {
-                setCnnerror(1)
+                state.cnnerror = 1;
+                state.cnnloading = false;
               });
             postData('http://localhost:8000/ensemble_test', img)
               .then(data => {
-                setEnsresult(parseInt(data[1]));
-                // console.log(data[1]) // JSON data parsed by `data.json()` call
+                state.ensresult = parseInt(data[1]);
+                state.ensloading = false;
               }).catch(error => {
-                setEnserror(1)
+                state.enserror = 1;
+                state.ensloading = false;
               });
             postData('http://localhost:8000/svm_test', svmimg)
               .then(data => {
-                setSvmresult(parseInt(data[1]));
-                // console.log(data[1]) // JSON data parsed by `data.json()` call
+                state.svmresult = parseInt(data[1]);
+                state.svmloading = false;
               }).catch(error => {
-                setSvmerror(1)
+                state.svmerror = 1;
+                state.svmloading = false;
               });
           }}
         >
