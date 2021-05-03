@@ -52,7 +52,7 @@ export const NewVideoComponent = observer(() => {
         let step = 0;
         
         for (let i = 0; i <= imgData.length; i += 4) {
-          if (step == width) {
+          if (step === width) {
             data.push(JSON.parse(JSON.stringify(data_w)))
             step = 0;
             data_w= []

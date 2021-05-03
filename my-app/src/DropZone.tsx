@@ -1,4 +1,3 @@
-import React from "react";
 import { DropzoneArea } from "material-ui-dropzone";
 import { observer } from "mobx-react-lite";
 import { useUserContext } from "./userContext";
