@@ -1,3 +1,4 @@
+import obama from './obama.png'
 export default function Potential() {
     return <>
         <h1>Potential Applications and Related Incidents</h1>
@@ -13,6 +14,7 @@ export default function Potential() {
             {/* <li>President of Argentine Mauricio Macri has been replaced by the face of Adolf Hitler, and Angela Merkel's face has been replaced with Donald Trump's</li> */}
             </p><p>
             <li>In 2018, Buzzfeed released a deepfake video, where American actor Jordan Peele reenact Barack Obama's facial feaures onto Peele, so that Peele is able to generate a video visually driving the facial expression of Obama</li>
+            <img width = "700" src={obama}/>
             <li>In 2019, an employee from Q13 creates and aired a deepfake mocking the appearance and skin color of President Donald Trump.</li>
             <li>In 2020, the Delhi Bharatiya Janata Party used lip-syncing technology to distribute an English campign advertisement delivered by its leader, Manoj Tiwari, voiced over by an actor and translated into Haryanvi in order to target Haryana voters in the Delhi Legislative Assembly election 2020 campaign. The resulting speech was trained through Tiwari speeches video. A party staff member claims that it allowed them to "convincingly approach the target audience even if the candidate didn't speak the language of the voter."</li>
             <li>In 2020, a deepfake video was created targeting Belgian Prime Minister Sophie Wilmès, in which the video caused audience to develop a conncetion between deforestation and COVID-19. Many viewers interpreted the deepfake video to be true, reflecting the influence of falsified information.</li>
