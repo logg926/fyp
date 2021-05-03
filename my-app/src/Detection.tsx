@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 // import { dummyimg } from "./dummyimg";
-import { DropzoneAreaPhoto, DropzoneAreaVideo } from "./DropZone";
+import { DropzoneAreaVideo } from "./DropZone";
 import { postData } from "./dataservice";
 import { Card, Box, Button, Grid } from "@material-ui/core";
 import { useUserContext } from "./userContext";
@@ -49,7 +49,6 @@ export const Detection = observer(() => {
   };
   // console.log(state.videoFile)
 
-  const FPS = 30;
   // const canvas: any = document.getElementById("canvasOutput");
   // const ctx = canvas.getContext("2d");
   const width = 256;
@@ -79,7 +78,7 @@ export const Detection = observer(() => {
     const data = []
     let step = 0;
     for (let i = 0; i <= mat.data.length; i += 4) {
-      if (step == width) {
+      if (step === width) {
         data.push(JSON.parse(JSON.stringify(data_w)))
         // data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
         // console.log(data_svm_w)
@@ -128,7 +127,7 @@ export const Detection = observer(() => {
       let data_svm = [];
       let step_svm = 0;
       for (let i = 0; i <= src.data.length; i++) {
-        if (step_svm == width) {
+        if (step_svm === width) {
           data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
           // data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
           // console.log(data_svm_w)
@@ -235,16 +234,16 @@ export const Detection = observer(() => {
                 {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
                 <h1>Detection Report of Deepfakes:</h1>
                 <h4>1.Capsule Network Test: </h4>
-                <h2>{state.caperror == 1 ? 'Return error' : (state.capresult == 0 ? "It is not a deepfake" : (state.capresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                <h2>{state.caperror === 1 ? 'Return error' : (state.capresult === 0 ? "It is not a deepfake" : (state.capresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.caploading && <CircularProgress />}
                 <h4>2.Xception Network Test:</h4>
-                <h2>{state.cnnerror == 1 ? 'Return error' : (state.cnnresult == 0 ? "It is not a deepfake" : (state.cnnresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                <h2>{state.cnnerror === 1 ? 'Return error' : (state.cnnresult === 0 ? "It is not a deepfake" : (state.cnnresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.cnnloading && <CircularProgress />}
                 <h4>3.Ensemble Network Test:</h4>
-                <h2>{state.enserror == 1 ? 'Return error' : (state.ensresult == 0 ? "It is not a deepfake" : (state.ensresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                <h2>{state.enserror === 1 ? 'Return error' : (state.ensresult === 0 ? "It is not a deepfake" : (state.ensresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.ensloading && <CircularProgress />}
                 <h4>4.Frequency Domain Test:</h4>
-                <h2>{state.svmerror == 1 ? 'Return error' : (state.svmresult == 0 ? "It is not a deepfake" : (state.svmresult == 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                <h2>{state.svmerror === 1 ? 'Return error' : (state.svmresult === 0 ? "It is not a deepfake" : (state.svmresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.svmloading && <CircularProgress />}
               </Box>
             </Card>
