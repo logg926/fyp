@@ -1,6 +1,5 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-// import { dummyimg } from "./dummyimg";
 import { DropzoneAreaVideo } from "./DropZone";
 import { postData } from "./dataservice";
 import { Card, Box, Button, Grid } from "@material-ui/core";
@@ -11,27 +10,7 @@ declare let cv: any;
 export const Detection = observer(() => {
   const state = useUserContext();
 
-  // const readImage = () => {
-  // let aa = cv.imread(state.photoFile, 0);
-  // console.log("aa:");
-  // let canvas = document.getElementById("canvasOutput");
-  // let ctx = canvas.getContext('2d');
-  // let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  // let src = cv.matFromImageData(imgData);
-  // let dst = new cv.Mat();
-  // cv.cvtColor(mat, dst, cv.COLOR_RGBA2GRAY);
-  // cv.imshow('canvasOutput', dst);
-  // }
-
-  // if(!state.videoFile){
-  //   setSvmresult(-1);
-  //   setCapresult(-1);
-  //   setCnnresult(-1);
-  //   setEnsresult(-1);
-  // }
-
   let vidElement = document.getElementById("videoSrc") as HTMLVideoElement
-  // let imgElement = document.getElementById("imageSrc") as HTMLImageElement
   vidElement && (vidElement.src = state.videoFile);
   let duration: number;
   vidElement && (vidElement.onloadedmetadata = function () {
@@ -40,17 +19,13 @@ export const Detection = observer(() => {
     videoOnLoad();
   });
 
-  // imgElement && (imgElement.src = state.photoFile);
   const img = {
     detectvid: [] as any,
   };
   const svmimg = {
     detectimg: [] as any,
   };
-  // console.log(state.videoFile)
 
-  // const canvas: any = document.getElementById("canvasOutput");
-  // const ctx = canvas.getContext("2d");
   const width = 256;
 
   let timeLeft = 0;
@@ -134,7 +109,6 @@ export const Detection = observer(() => {
           {state.videoFile &&
             <Card>
               <Box height={700} m={1}>
-                {/* <h1 id="result">{svmresult ? "It is a deepfake" : "It is not a deepfake"}</h1> */}
                 <h1>Detection Report of Deepfakes:</h1>
                 <h4>1.Capsule Network Test: </h4>
                 <h2>{state.caperror === 1 ? 'Return error' : (state.capresult === 0 ? "It is not a deepfake" : (state.capresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
