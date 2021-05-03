@@ -61,19 +61,6 @@ export const Detection = observer(() => {
     let cap = new cv.VideoCapture(vidElement);
     let mat = new cv.Mat(256, 256, cv.CV_8UC4);
     cap.read(mat);
-    // cv.imshow("canvasOutput", mat);
-    // schedule next one.
-    // let delay = 1000/FPS - (Date.now() - begin);
-    // setTimeout(processVideo, 3000);
-    // cv.imshow('canvasOutput', mat);
-    // console.log(mat);
-    // cv.imshow("canvasOutput", mat);
-
-    // const imgData = ctx.getImageData(0, 0, 256, 256).data;
-    // console.log(imgData)
-    // let dst = new cv.Mat();
-    // mat.convertTo(dst, cv.CV_8U);
-    // console.log(dst);
 
     let data_w = []
     const data = []
@@ -81,42 +68,14 @@ export const Detection = observer(() => {
     for (let i = 0; i <= mat.data.length; i += 4) {
       if (step == width) {
         data.push(JSON.parse(JSON.stringify(data_w)))
-        // data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
-        // console.log(data_svm_w)
         step = 0;
         data_w = [];
       }
       data_w.push([mat.data[i], mat.data[i + 1], mat.data[i + 2]]);
-      // console.log(timeLeft);
-      // console.log(data_w)
-
       ++step;
 
     }
-    // console.log(data)
-
-
     img.detectvid.push(data)
-    // console.log(svmimg.detectimg)
-
-    // console.log(data)
-    // let arrOut: any = [];
-    // for (let i = 0; i < dst.rows; ++i) {
-    //   arrOut[i] = []
-    //   for (let j = 0; j < dst.cols; ++j) {
-    //     arrOut[i][j] = dst.ucharAt(i, j);
-    //   }
-    // };
-    // console.log(arrOut);
-    // img.detectimg = arrOut;
-    // console.log(img)
-    // console.log(detectimg)
-    // console.log(arrOut);
-    // cv.imshow("canvasOutput", mat)
-    // console.log(arrOut[0])
-    // console.log(detectimg)
-    // console.log(dst.data)
-
 
     let delay = (Date.now() - begin);
     timeLeft += delay;
@@ -130,37 +89,20 @@ export const Detection = observer(() => {
       for (let i = 0; i <= src.data.length; i++) {
         if (step_svm == width) {
           data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
-          // data_svm.push(JSON.parse(JSON.stringify(data_svm_w)))
-          // console.log(data_svm_w)
           step_svm = 0;
           data_svm_w = [];
         }
-        // let avg = Math.round((mat.data[i] + mat.data[i + 1] + mat.data[i + 2]) / 3)
-        // console.log(avg)
         data_svm_w.push(src.data[i]);
-        // console.log(timeLeft);
-        // console.log(data_w)
-
         ++step_svm;
-
       }
-      // console.log(data)
       svmimg.detectimg = data_svm;
       console.log(svmimg)
       console.log(img);
       src.delete();
-
-
-      // data_svm_w.push(avg)
-
       return
     }
     mat.delete();
-    // console.log(delay)
     setTimeout(processVideo, delay);
-    // console.log(img.detectimg)
-    // src.delete();
-    // dst.delete();
   })
 
   const videoOnLoad = (() => {
@@ -168,40 +110,6 @@ export const Detection = observer(() => {
     setTimeout(processVideo, 20);
   });
 
-  // const imgOnLoad = (() => {
-  //   if (state.videoFile) {
-  //     console.log("remove video to display image");
-  //     return
-  //   }
-  //   console.log("image loaded!")
-  //   let mat = cv.imread(imgElement);
-  //   cv.imshow('canvasOutput', mat);
-  //   console.log(mat);
-  //   // let dst = new cv.Mat();
-  //   // let rect = new cv.Rect(100, 100, 200, 200);
-  //   // console.log(rect)
-  //   // let img = cv.matFromImageData(mat);
-  //   // console.log(img);
-  //   let dst = new cv.Mat();
-  //   mat.convertTo(dst, cv.CV_8U);
-  //   let arrOut: any = [];
-  //   for (let i = 0; i < dst.rows; ++i) {
-  //     arrOut[i] = []
-  //     for (let j = 0; j < dst.cols; ++j) {
-  //       arrOut[i][j] = dst.ucharAt(i, j);
-  //     }
-  //   };
-  //   img.detectimg = arrOut;
-  //   console.log(img)
-  //   // console.log(detectimg)
-  //   // console.log(arrOut);
-  //   // cv.imshow("canvasOutput", dst)
-  //   // console.log(arrOut[0])
-  //   // console.log(detectimg)
-  //   // console.log(dst.data)
-  //   mat.delete();
-  //   dst.delete();
-  // });
 
   return <>
     <Box p={2} alignContent="center">
@@ -213,9 +121,6 @@ export const Detection = observer(() => {
             <Box height={700} m={1}>
               Put your Video here:
               <span>
-                {/* <Box>
-          <DropzoneAreaPhoto />
-        </Box> */}
                 <Box>
                   <DropzoneAreaVideo />
                 </Box>
@@ -223,8 +128,6 @@ export const Detection = observer(() => {
 
               <h4>Preview:</h4>
               <video id="videoSrc" width="256" height="256" autoPlay />
-              {/* <canvas id="canvasOutput" width="256" height="256"></canvas> */}
-              {/* <img id="imageSrc" alt="No image" width="400" onLoad={imgOnLoad} /> */}
             </Box>
           </Card>
         </Grid>

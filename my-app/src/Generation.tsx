@@ -1,5 +1,5 @@
 import React from "react";
-import { DropzoneAreaPhoto } from "./DropZone";
+import { DropzoneAreaPhoto, DropzoneAreaVideoForGen } from "./DropZone";
 import { NewVideoComponent } from "./NewVideoComponent";
 import { Box, Card, Button } from "@material-ui/core";
 import { useUserContext } from "./userContext";
@@ -53,10 +53,41 @@ export const Generation = observer(() => {
       <Box p={2} alignContent="center">
         <b>Deepfakes Generation</b>
         <br></br>
-        <Box p={2} alignContent="center">
-          Record your video:
-          <NewVideoComponent />
-        </Box>
+
+        {state.uploadinstead && (
+          <>
+            <Box p={2} alignContent="center">
+              <Button
+                onClick={() => {
+                  state.uploadinstead = false;
+                }}
+              >
+                Take WebCam Video instead
+              </Button>
+            </Box>
+            <Box p={2}>
+              <DropzoneAreaVideoForGen />
+            </Box>
+            {state.videoloadcomplete && "Video Load Complete"}
+          </>
+        )}
+        {!state.uploadinstead && (
+          <>
+            <Box p={2} alignContent="center">
+              <Button
+                onClick={() => {
+                  state.uploadinstead = true;
+                }}
+              >
+                Upload Video instead
+              </Button>
+            </Box>
+            <Box p={2} alignContent="center">
+              Record your video:
+              <NewVideoComponent />
+            </Box>
+          </>
+        )}
         <Box p={2}>
           <Card raised>
             <Box p={5}>
@@ -75,7 +106,9 @@ export const Generation = observer(() => {
               color="primary"
               onClick={() => {
                 state.genloading = true;
+                console.log("Generating", gen)
                 postData("http://localhost:8000/gen", gen).then((data) => {
+
                   state.generationlink = data;
                   state.genloading = false;
                 });

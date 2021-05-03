@@ -20,6 +20,8 @@ export class UserStore {
   cnnerror = 0;
   ensresult = -1;
   enserror = 0;
+  uploadinstead = false
+  videoloadcomplete = false
     constructor() {
   makeAutoObservable(this);
 }
