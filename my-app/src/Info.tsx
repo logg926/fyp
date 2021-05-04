@@ -5,6 +5,12 @@ import detection1 from './screencap/detection1.png'
 import detection2 from './screencap/detection2.png'
 import detection3 from './screencap/detection3.png'
 import detection4 from './screencap/detection4.png'
+import gen1 from './screencap/gen1.png'
+import gen2a from './screencap/gen2a.png'
+import gen2b from './screencap/gen2b.png'
+import gen3 from './screencap/gen3.png'
+import gen5 from './screencap/gen5.png'
+import gen6 from './screencap/gen6.png'
 
 declare let cv: any;
 export const Info = observer(() => {
@@ -26,26 +32,25 @@ export const Info = observer(() => {
         <Grid item xs={12} sm={6}>
           <h3>Instructions on Generation</h3>
           <p>Step 1: Go to the "Generation" tab, you should see this page:</p>
-          {/* <img  alt="No image" width ="600" src= {detection1}/> */}
-          <p>Step 2: Choose upload video or live recording using webcam</p>
-          <p>Step 2a: Upload a video by pressing the upload button. Crop your video to 256x256 for better quality.</p>
-          {/* <img  alt="No image" src= /> */}
-          <p>Step 2b: Start live recording by pressing start and stop when finish</p>
-          {/* <img  alt="No image" src= /> */}
+          <img  alt="No image" width ="600" src= {gen1}/>
+          <p>Step 2: Choose live recording using webcam or upload video</p>
+          <h5>Step 2a: Start live recording by pressing start and stop when finish</h5>
+          <img  alt="No image" width ="600" src= {gen2a}/>
+          <h5>Step 2b: Click "Upload video instead" to switch the page. Upload a video by pressing the upload button in the dropzone. Crop your video to 256x256 for better quality. If the video is successfully uploaded, you should see this:</h5>
+          <img  alt="No image" width ="600" src= {gen2b}/>
           <p>Step 3: Upload source image. Crop your image to 256x256 for better quality.</p>
-          {/* <img  alt="No image" src= /> */}
+          <img  alt="No image" width ="600" src= {gen3}/>
           <p>Step 4: To generate deepfakes, press the buttons for corresponding methods:</p>
-          {/* <img  alt="No image" src= /> */}
-          <p>Step 5: Wait until you see the download button available:</p>
-          {/* <img  alt="No image" src= /> */}
-          <p>Step 6: Click into the button, you can see the vidoe preview and download:</p>
-          {/* <img  alt="No image" src= /> */}
+          <p>Step 5: Wait until you see the download button "click me to download" available:</p>
+          <img  alt="No image" width ="600" src= {gen5}/>
+          <p>Step 6: Click into the button, you can see the video preview and download:</p>
+          <img  alt="No image" width ="600" src= {gen6}/>
         </Grid>
         <Grid item xs={12} sm={6}>
           <h3>Instructions on Detection</h3>
           <p>Step 1: Go to the "Detection" tab, you should see this page:</p>
           <img  alt="No image" width ="600" src= {detection1}/>
-          <p>Step 2: Upload a video by pressing the upload button. Crop your video to 300x300 for better quality. If the video is successfully uploaded, you should see this:</p>
+          <p>Step 2: Upload a video by pressing the upload button in the dropzone. Crop your video to 300x300 for better quality. If the video is successfully uploaded, you should see this:</p>
           <img  alt="No image" width ="600" src= {detection2}/>
           <p>Step 3: Press "detect" to generate the Detection Report</p>
           <img  alt="No image" width ="600" src= {detection3}/>

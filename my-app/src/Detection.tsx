@@ -9,7 +9,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 declare let cv: any;
 export const Detection = observer(() => {
   const state = useUserContext();
-
   let vidElement = document.getElementById("videoSrc") as HTMLVideoElement
   vidElement && (vidElement.src = state.videoFile);
   let duration: number;
@@ -26,6 +25,10 @@ export const Detection = observer(() => {
     detectimg: [] as any,
   };
 
+  const videoOnLoad = (() => {
+    console.log("video loaded!")
+    setTimeout(processVideo, 20);
+  });
   const width = 256;
 
   let timeLeft = 0;
@@ -70,8 +73,6 @@ export const Detection = observer(() => {
         ++step_svm;
       }
       svmimg.detectimg = data_svm;
-      console.log(svmimg)
-      console.log(img);
       src.delete();
       return
     }
@@ -79,10 +80,6 @@ export const Detection = observer(() => {
     setTimeout(processVideo, delay);
   })
 
-  const videoOnLoad = (() => {
-    console.log("video loaded!")
-    setTimeout(processVideo, 20);
-  });
 
 
   return <>
@@ -101,7 +98,7 @@ export const Detection = observer(() => {
               </span>
 
               <h4>Preview:</h4>
-              <video id="videoSrc" width="256" height="256" autoPlay />
+              <video id="videoSrc" width="300" height="300" autoPlay />
             </Box>
           </Card>
         </Grid>
@@ -128,7 +125,7 @@ export const Detection = observer(() => {
         </Grid>
       </Grid>
       <Box>
-        {svmimg && <Button
+        {<Button
           variant="contained"
           color="primary"
           onClick={() => {
@@ -170,7 +167,7 @@ export const Detection = observer(() => {
               });
           }}
         >
-          Detect
+          Detect the Video
         </Button>}
       </Box>
 
