@@ -1,4 +1,5 @@
-describe('Testing for detection report', () => {
+describe('Testing for detection report', () => {  
+  // Test for opening the detection page
   it('Can open', () => {
     cy.visit('http://localhost:3000')
 
@@ -6,13 +7,13 @@ describe('Testing for detection report', () => {
     cy.url().should('include', '/Detection')
 
   })
+
+  //Test for the ability uploading video 
   it('Should be able upload video', function () {
-    // upload file using drag and drop using a fixtue
     const fileName = 'files/demo2.mp4'
     cy.fixture(fileName, 'binary')
     .then(Cypress.Blob.binaryStringToBlob)  
     .then(fileContent => {
-        // console.log(fileContent.toString())
         cy.get('input[type="file"]').attachFile({
           fileContent,
           fileName,
@@ -21,11 +22,10 @@ describe('Testing for detection report', () => {
         });
       });
       cy.wait(5000)
-    // assert succesful upload and continue testing
   })
 
+  // Test for the 4 API calls
   it('Deepfake Detection', function () {
-
     cy.intercept('http://localhost:8000/svm_test').as('apiCheck_svm')
     cy.intercept('http://localhost:8000/ensemble_test').as('apiCheck_ens')
     cy.intercept('http://localhost:8000/cnn_test').as('apiCheck_cnn')

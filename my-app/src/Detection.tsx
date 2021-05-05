@@ -12,12 +12,10 @@ export const Detection = observer(() => {
   let vidElement = document.getElementById("videoSrc") as HTMLVideoElement
   vidElement && (vidElement.src = state.videoFile);
   let duration: number;
-  vidElement && (vidElement.onloadedmetadata = function () {
-    console.log('metadata loaded!');
-    duration = vidElement.duration * 1000;
-    videoOnLoad();
-  });
-
+  const width = 256;
+  let timeLeft = 0;
+  
+  // Define the inputs for API call
   const img = {
     detectvid: [] as any,
   };
@@ -25,15 +23,21 @@ export const Detection = observer(() => {
     detectimg: [] as any,
   };
 
+  // When the duration of the video is retrieved, start processing the video
+  vidElement && (vidElement.onloadedmetadata = function () {
+    console.log('metadata loaded!');
+    duration = vidElement.duration * 1000;
+    videoOnLoad();
+  });
+
+  // Kickstart the video processing 
   const videoOnLoad = (() => {
     console.log("video loaded!")
-    setTimeout(processVideo, 20);
+    setTimeout(processVideo, 30);
   });
-  const width = 256;
-
-  let timeLeft = 0;
+  
+  // Recursively call, capture video frames
   const processVideo = (() => {
-    console.log("run")
     let begin = Date.now();
     let cap = new cv.VideoCapture(vidElement);
     let mat = new cv.Mat(256, 256, cv.CV_8UC4);
@@ -56,8 +60,8 @@ export const Detection = observer(() => {
 
     let delay = (Date.now() - begin);
     timeLeft += delay;
+    // Capture frame for svm test
     if (timeLeft >= duration) {
-      console.log("stop")
       let src = new cv.Mat(256, 256, cv.CV_8UC1);
       cv.cvtColor(mat, src, cv.COLOR_RGBA2GRAY);
       let data_svm_w = []
@@ -77,6 +81,7 @@ export const Detection = observer(() => {
       return
     }
     mat.delete();
+    // Call again after delay
     setTimeout(processVideo, delay);
   })
 
@@ -98,11 +103,12 @@ export const Detection = observer(() => {
               </span>
 
               <h4>Preview:</h4>
-              <video id="videoSrc" width="300" height="300" autoPlay />
+              <video id="videoSrc" width="256" height="256" autoPlay />
             </Box>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
+          {/* Show the test report upon video upload */}
           {state.videoFile &&
             <Card>
               <Box height={700} m={1}>
@@ -117,7 +123,7 @@ export const Detection = observer(() => {
                 <h2>{state.enserror === 1 ? 'Return error' : (state.ensresult === 0 ? "It is not a deepfake" : (state.ensresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.ensloading && <CircularProgress />}
                 <h4>4.Frequency Domain Test:</h4>
-                <h2>{state.svmerror === 1 ? 'Return error' : (state.svmresult === 0 ? "It is not a deepfake" : (state.svmresult === 1 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
+                <h2>{state.svmerror === 1 ? 'Return error' : (state.svmresult === 1 ? "It is not a deepfake" : (state.svmresult === 0 ? "It is a deepfake" : 'Waiting for response...'))}</h2>
                 {state.svmloading && <CircularProgress />}
               </Box>
             </Card>
@@ -128,6 +134,7 @@ export const Detection = observer(() => {
         {<Button
           variant="contained"
           color="primary"
+          // On click the detection button, initiate the API calls
           onClick={() => {
             state.caploading = true;
             state.cnnloading = true;
@@ -170,9 +177,6 @@ export const Detection = observer(() => {
           Detect the Video
         </Button>}
       </Box>
-
-
-      <canvas id="canvasOutput" width="256" height="256"></canvas>
     </Box>
   </>;
 });
