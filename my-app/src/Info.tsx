@@ -52,7 +52,7 @@ export const Info = observer(() => {
           <img  alt="No image" width ="600" src= {detection1}/>
           <p>Step 2: Upload a video by pressing the upload button in the dropzone. Crop your video to 300x300 for better quality. If the video is successfully uploaded, you should see this:</p>
           <img  alt="No image" width ="600" src= {detection2}/>
-          <p>Step 3: Press "detect" to generate the Detection Report</p>
+          <p>Step 3: Wait for the video to end in the preview window. Wait for extra 1 to 2 seconds, then press the detect button to generate the Detection Report</p>
           <img  alt="No image" width ="600" src= {detection3}/>
           <p>Step 4: Wait until all the tests are finished. The results are displayed.</p>
           <img  alt="No image" width ="600" src= {detection4}/>
